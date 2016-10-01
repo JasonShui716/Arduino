@@ -1,0 +1,69 @@
+const int Rled=2;
+const int Yled=3;
+const int Gled=4;
+const int sensor=5;
+const int fmq=6;
+int value,value1;
+int a;
+int times=1;
+void setup()
+{
+  pinMode(Rled,OUTPUT);
+  pinMode(Yled,OUTPUT);
+  pinMode(Gled,OUTPUT);
+  pinMode(sensor,INPUT);
+  pinMode(fmq,OUTPUT);
+  Serial.begin(9600);
+}
+
+void loop()
+{
+  if(times==1)
+    {
+      value=digitalRead(sensor);
+      delay(500);
+      value1=digitalRead(sensor);
+      delay(500);
+    }
+ if(times>1)
+   {
+     value=value1;
+     delay(500);
+     value1=digitalRead(sensor);
+     delay(500);
+   }
+ if(value==0&&value1==1)
+   {
+     a++;
+     if(a<2)
+     {
+        digitalWrite(Gled,HIGH);
+       tone(fmq,523);
+       delay(300);
+       digitalWrite(Gled,LOW);
+       noTone(fmq);
+     }
+     if(a>=2&&a<4)
+      {
+       digitalWrite(Yled,HIGH);
+       tone(fmq,1046);
+       delay(300);
+       digitalWrite(Yled,LOW);
+       noTone(fmq);
+      }
+     if(a>=4)
+     {
+       digitalWrite(Rled,HIGH);
+       tone(fmq,1046,5000);
+       while(1);
+     }  
+ }
+   Serial.print("v:");
+   Serial.print(value);
+   Serial.println(value1);
+   Serial.println(a);
+   
+   
+   times++;
+   delay(500);
+}
