@@ -25,7 +25,6 @@ void setup()
   pinMode(Button1,INPUT_PULLUP);
   pinMode(Button2,INPUT_PULLUP);
   pinMode(Button3,INPUT_PULLUP);
-  lcd.print("Please choose a");
   lcd.begin(16,2);
   lcd.print("Welcome");
   delay(1000);
@@ -37,23 +36,14 @@ void setup()
   lcd.print("by Shui Jiaxin");
 delay(1500);
   lcd.clear();
-  reader();
-  lcd.setCursor(0,1);
-  lcd.print("mode.");
+  lcd.print("Please choose a");
+  delay(500);
+   lcd.setCursor(0,1);
+   lcd.print("mode.");
+  delay(1000);
   lcd.clear();
-  lcd.print("1.Setting");
-  lcd.setCursor(0,1);
-  lcd.print("2.Begin counting");
-  while(b1==1&&b2==1)
-    {
-      reader();
-      if(b2==0)
-        break;
-      if(b1==0){
-        setting();
-        break;
-      }
-    }
+  reader();
+  choose();
   lcd.clear();
   lcd.setCursor(0,1);
   lcd.print("Number:");
@@ -61,8 +51,7 @@ delay(1500);
 
 void loop()
 {
- Serial.print(value);
- Serial.print(value1);
+ while(1){
   middle=maxi/2;  
   if(times==1)
     {
@@ -105,7 +94,16 @@ void loop()
        lcd.print("FULL!!!!!!!!!");
        digitalWrite(Rled,HIGH);
        tone(fmq,1046,5000);
-       delay(10000000000000);
+       delay(3000);
+       lcd.clear();
+       lcd.print("push the button2 to ");
+       lcd.setCursor(0,1);
+       lcd.print("quit.");
+       
+       while(b2==1);
+       digitalWrite(Rled,LOW);
+       choose();
+       break;
      }  
  }
  lcd.setCursor(12,1);
@@ -120,8 +118,8 @@ if(value==1&&value1==0)
   lcd.print(a);
   times++;
    delay(400);
+  }
 }
-
 void setting()
 {
   lcd.clear();
@@ -135,7 +133,7 @@ void setting()
        lcd.print("button3 to increa");
        delay(900);
        lcd.setCursor(0,1);
-       lcd.print("se the maximum ");
+       lcd.print("se the maximum.");
        delay(900);
       
  reader();
@@ -153,7 +151,7 @@ void setting()
 
        delay(150);
     }
-  
+
 }
 
 void reader()
@@ -161,5 +159,25 @@ void reader()
   b1=digitalRead(Button1);
   b2=digitalRead(Button2);
   b3=digitalRead(Button3);
+}
+
+void choose()
+{
+ lcd.setCursor(0,0);
+lcd.clear();
+  lcd.print("1.Setting");
+  lcd.setCursor(0,1);
+  lcd.print("2.Begin counting");
+ reader();
+  while(b1==1&&b2==1)
+    {
+      reader();
+      if(b2==0)
+        break;
+      if(b1==0){
+        setting();
+        break;
+      }
+    }
 }
 
