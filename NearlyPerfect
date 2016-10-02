@@ -1,0 +1,165 @@
+ #include<LiquidCrystal.h>
+#define Button1 A0
+#define Button2 A1
+#define Button3 A2
+LiquidCrystal lcd(4,3,5,7,6,8);
+const int Rled=2;
+const int Yled=10;
+const int Gled=9;
+const int sensor=11;
+const int fmq=12;
+int value,value1;
+int a;
+int times=1;
+int b1,b2,b3;
+int maxi=4;
+int middle;
+
+void setup()
+{
+  pinMode(Rled,OUTPUT);
+  pinMode(Yled,OUTPUT);
+  pinMode(Gled,OUTPUT);
+  pinMode(sensor,INPUT);
+  pinMode(fmq,OUTPUT);
+  pinMode(Button1,INPUT_PULLUP);
+  pinMode(Button2,INPUT_PULLUP);
+  pinMode(Button3,INPUT_PULLUP);
+  lcd.print("Please choose a");
+  lcd.begin(16,2);
+  lcd.print("Welcome");
+  delay(1000);
+  lcd.clear();
+  lcd.setCursor(0,0);
+  lcd.print("Designed");
+  delay(500);
+  lcd.setCursor(2,1);
+  lcd.print("by Shui Jiaxin");
+delay(1500);
+  lcd.clear();
+  reader();
+  lcd.setCursor(0,1);
+  lcd.print("mode.");
+  lcd.clear();
+  lcd.print("1.Setting");
+  lcd.setCursor(0,1);
+  lcd.print("2.Begin counting");
+  while(b1==1&&b2==1)
+    {
+      reader();
+      if(b2==0)
+        break;
+      if(b1==0){
+        setting();
+        break;
+      }
+    }
+  lcd.clear();
+  lcd.setCursor(0,1);
+  lcd.print("Number:");
+  }
+
+void loop()
+{
+ Serial.print(value);
+ Serial.print(value1);
+  middle=maxi/2;  
+  if(times==1)
+    {
+      value=digitalRead(sensor);
+      delay(500);
+      value1=digitalRead(sensor);
+      delay(500);
+    }
+ if(times>1)
+   {
+     value=value1;
+     delay(500);
+     value1=digitalRead(sensor);
+     delay(500);
+   }
+ if(value==0&&value1==1)
+   {
+     a++;
+     lcd.setCursor(9,1);
+      lcd.print(a);
+     if(a<=middle)
+     {
+        digitalWrite(Gled,HIGH);
+       tone(fmq,523);
+       delay(200);
+       digitalWrite(Gled,LOW);
+       noTone(fmq);
+     }
+     if(a>middle&&a<maxi)
+      {
+       digitalWrite(Yled,HIGH);
+       tone(fmq,1046);
+       delay(300);
+       digitalWrite(Yled,LOW);
+       noTone(fmq);
+      }
+     if(a==maxi)
+     {
+       lcd.setCursor(0,0);
+       lcd.print("FULL!!!!!!!!!");
+       digitalWrite(Rled,HIGH);
+       tone(fmq,1046,5000);
+       delay(10000000000000);
+     }  
+ }
+ lcd.setCursor(12,1);
+ lcd.print(value);
+ lcd.print(value1);
+ lcd.setCursor(0,0);
+ if(value1==1)
+   lcd.print("counting...");
+if(value==1&&value1==0)
+  lcd.print("next            ");
+  lcd.setCursor(9,1);
+  lcd.print(a);
+  times++;
+   delay(400);
+}
+
+void setting()
+{
+  lcd.clear();
+       lcd.setCursor(0,0);
+       lcd.print("push the button2");
+       delay(900);
+       lcd.setCursor(0,1);
+       lcd.print("to quit and the     ");
+       delay(900);
+       lcd.setCursor(0,0);
+       lcd.print("button3 to increa");
+       delay(900);
+       lcd.setCursor(0,1);
+       lcd.print("se the maximum ");
+       delay(900);
+      
+ reader();
+  while(b2==1)
+    {
+      lcd.clear();
+       lcd.print("maximum:");
+  delay(100); 
+      reader();
+      if(b3==0)
+        maxi++;
+       else;
+       lcd.setCursor(10,0);
+       lcd.print(maxi);
+
+       delay(150);
+    }
+  
+}
+
+void reader()
+{
+  b1=digitalRead(Button1);
+  b2=digitalRead(Button2);
+  b3=digitalRead(Button3);
+}
+
