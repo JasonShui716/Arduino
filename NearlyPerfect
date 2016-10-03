@@ -1,4 +1,3 @@
-/*科协复试作品Arduino源代码 作者：水贾鑫*/
 #include<LiquidCrystal.h>
 #define Button1 A0
 #define Button2 A1
@@ -226,3 +225,4 @@ void change()
     }
 
 }
+（科协复试作品Arduino源代码 作者：水贾鑫）
