@@ -1,5 +1,4 @@
-
- #include<LiquidCrystal.h>
+#include<LiquidCrystal.h>
 #define Button1 A0
 #define Button2 A1
 #define Button3 A2
