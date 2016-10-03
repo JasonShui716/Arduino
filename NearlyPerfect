@@ -1,3 +1,4 @@
+
  #include<LiquidCrystal.h>
 #define Button1 A0
 #define Button2 A1
@@ -58,14 +59,15 @@ tone(fmq,988,200);
   lcd.clear();
   reader();
   choose();
-  lcd.clear();
-  lcd.setCursor(0,1);
-  lcd.print("Number:");
+
   }
 
 void loop()
 {
- while(1){
+  lcd.clear();
+  lcd.setCursor(0,1);
+  lcd.print("Number:");
+  while(1){
   middle=maxi/2;  
   if(times==1)
     {
@@ -113,8 +115,13 @@ void loop()
        lcd.print("push the button2 to ");
        lcd.setCursor(0,1);
        lcd.print("quit.");
-       while(b2==0);
+       reader();
+       while(b2==1)
+         reader();
        digitalWrite(Rled,LOW);
+       delay(200);
+       a=0;
+       reader();
        choose();
        break;
      }  
@@ -140,13 +147,13 @@ void setting()
        lcd.print("push the button2");
        delay(900);
        lcd.setCursor(0,1);
-       lcd.print("to quit,the butto");
+       lcd.print("to quit,the butt");
        delay(900);
        lcd.setCursor(0,0);
-       lcd.print("n3 to increase the");
+       lcd.print("on3 to increase    ");
        delay(900);
        lcd.setCursor(0,1);
-       lcd.print("maximum and     ");
+       lcd.print("the maximum and ");
        delay(900);
        lcd.setCursor(0,0);
        lcd.print("the button1 to d");
