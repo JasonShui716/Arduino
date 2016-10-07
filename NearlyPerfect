@@ -123,15 +123,15 @@ void loop()
        reader();
        choose();
        break;
-      }  
-     }
+     }  
+    }
  lcd.setCursor(14,1);
  lcd.print(value);
  lcd.print(value1);
  lcd.setCursor(0,0);
  if(value1==1)
    lcd.print("counting...");
-if(value==1&&value1==0)
+ if(value==1&&value1==0)
   lcd.print("next            ");
   lcd.setCursor(9,1);
   lcd.print(a);
